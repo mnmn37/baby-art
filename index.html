@@ -1,170 +1,273 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>おうち美術プラン</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
-        "Noto Sans JP", sans-serif;
-      background: #faf8f5;
-      color: #2d2018;
-    }
-    .header {
-      position: sticky;
-      top: 0;
-      background: white;
-      padding: 18px 16px 12px;
-      border-bottom: 1px solid #eee8e0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-    .header small {
-      font-size: 11px;
-      color: #a09080;
-      display: block;
-    }
-    .month-tabs {
-      display: flex;
-      overflow-x: auto;
-      gap: 8px;
-      padding: 12px;
-      background: white;
-    }
-    .month-btn {
-      border: 2px solid #e8e0d8;
-      padding: 8px 10px;
-      border-radius: 10px;
-      background: white;
-      cursor: pointer;
-    }
-    .month-btn.active {
-      background: #8b5a2b;
-      color: white;
-    }
-    .card {
-      margin: 16px;
-      padding: 16px;
-      border-radius: 12px;
-      background: #fff7ef;
-    }
-    .activity {
-      margin: 10px 16px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 10px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>おうち美術プラン</title>
+
+<style>
+body { margin:0; font-family:sans-serif; background:#faf8f5;}
+.header {padding:16px;background:#fff;border-bottom:1px solid #ddd;}
+.tabs {display:flex;overflow-x:auto;background:#fff;padding:10px;}
+.tabs button {margin-right:6px;padding:8px;border-radius:8px;border:1px solid #ccc;}
+.active {background:#333;color:#fff;}
+.card {margin:16px;padding:16px;background:#fff;border-radius:10px;}
+.block {margin-top:10px;padding:10px;border:1px solid #eee;border-radius:8px;}
+</style>
 </head>
+
 <body>
 
 <div class="header">
-  <small>2歳の1年間</small>
-  <h2>おうち美術プラン</h2>
+<h2>おうち美術12ヶ月プラン</h2>
 </div>
 
-<div id="tabs" class="month-tabs"></div>
+<div id="tabs" class="tabs"></div>
 <div id="app"></div>
 
 <script>
+
 const months = [
-{theme:"色に出会う",sub:"色の認識",why:"色への興味を育てる",activities:[
-{week:1,title:"クレヨン",mat:"クレヨン",detail:"自由に描く"},
-{week:2,title:"色さがし",mat:"家の中",detail:"同じ色を探す"},
-{week:3,title:"シール",mat:"シール",detail:"色選び"},
-{week:4,title:"まとめ",mat:"自由",detail:"好きな色で制作"}
-]},
-{theme:"混ざる",sub:"変化体験",why:"色の変化を知る",activities:[
-{week:1,title:"色水",mat:"水",detail:"混ぜる"},
-{week:2,title:"フィンガー",mat:"絵の具",detail:"手で混ぜる"},
-{week:3,title:"スタンプ",mat:"スポンジ",detail:"重ねる"},
-{week:4,title:"色づくり",mat:"自由",detail:"好きな色"}
-]},
-{theme:"手を使う",sub:"触覚",why:"手の操作",activities:[
-{week:1,title:"粘土",mat:"粘土",detail:"にぎる"},
-{week:2,title:"手形",mat:"絵の具",detail:"押す"},
-{week:3,title:"紙ちぎり",mat:"紙",detail:"ちぎる"},
-{week:4,title:"自由",mat:"自由",detail:"手を使う"}
-]},
-{theme:"かたち",sub:"丸と線",why:"形の理解",activities:[
-{week:1,title:"丸シール",mat:"シール",detail:"丸"},
-{week:2,title:"スタンプ",mat:"スタンプ",detail:"形"},
-{week:3,title:"ぐるぐる",mat:"クレヨン",detail:"円"},
-{week:4,title:"顔",mat:"紙",detail:"見立て"}
-]},
-{theme:"水",sub:"にじみ",why:"広がり体験",activities:[
-{week:1,title:"水描き",mat:"水",detail:"消える"},
-{week:2,title:"にじみ絵",mat:"絵の具",detail:"広がる"},
-{week:3,title:"スポイト",mat:"水",detail:"落とす"},
-{week:4,title:"まとめ",mat:"自由",detail:"水表現"}
-]},
-{theme:"貼る",sub:"構成",why:"配置",activities:[
-{week:1,title:"のり",mat:"紙",detail:"貼る"},
-{week:2,title:"色紙",mat:"紙",detail:"重ねる"},
-{week:3,title:"布",mat:"布",detail:"素材"},
-{week:4,title:"自由",mat:"自由",detail:"構成"}
-]},
-{theme:"見立て",sub:"想像",why:"象徴",activities:[
-{week:1,title:"顔",mat:"シール",detail:"見立て"},
-{week:2,title:"線",mat:"紙",detail:"意味付け"},
-{week:3,title:"スタンプ",mat:"絵の具",detail:"変換"},
-{week:4,title:"自由",mat:"自由",detail:"想像"}
-]},
-{theme:"素材",sub:"感触",why:"違い理解",activities:[
-{week:1,title:"布",mat:"布",detail:"感触"},
-{week:2,title:"アルミ",mat:"アルミ",detail:"光"},
-{week:3,title:"紙",mat:"紙",detail:"違い"},
-{week:4,title:"自由",mat:"自由",detail:"素材"}
-]},
-{theme:"作る",sub:"制作",why:"達成",activities:[
-{week:1,title:"紙皿",mat:"紙",detail:"顔"},
-{week:2,title:"飾り",mat:"紙",detail:"作る"},
-{week:3,title:"コップ",mat:"紙",detail:"立体"},
-{week:4,title:"自由",mat:"自由",detail:"制作"}
-]},
-{theme:"線",sub:"操作",why:"描画",activities:[
-{week:1,title:"ぐるぐる",mat:"クレヨン",detail:"円"},
-{week:2,title:"直線",mat:"紙",detail:"線"},
-{week:3,title:"道",mat:"紙",detail:"遊び"},
-{week:4,title:"自由",mat:"自由",detail:"線"}
-]},
-{theme:"ストーリー",sub:"意味",why:"言語",activities:[
-{week:1,title:"日記",mat:"紙",detail:"語る"},
-{week:2,title:"人",mat:"紙",detail:"描く"},
-{week:3,title:"物語",mat:"紙",detail:"展開"},
-{week:4,title:"絵本",mat:"紙",detail:"構成"}
-]},
-{theme:"まとめ",sub:"統合",why:"振り返り",activities:[
-{week:1,title:"素材選び",mat:"自由",detail:"選択"},
-{week:2,title:"制作",mat:"自由",detail:"表現"},
-{week:3,title:"展示",mat:"作品",detail:"選ぶ"},
-{week:4,title:"発表",mat:"作品",detail:"共有"}
-]}
+
+{
+theme:"手で描く",
+why:"身体感覚から表現を始める",
+basis:"Zero to Three・Justice et al.",
+activities:[
+{
+week:1,
+title:"片栗粉ペイント",
+mat:"片栗粉・水・食紅",
+tools:"大きな紙・シート",
+detail:"手で伸ばして感触を楽しむ",
+focus:"触感を言葉にする",
+ref:"Zero to Three"
+},
+{
+week:2,
+title:"手形",
+mat:"絵の具",
+tools:"紙・タオル",
+detail:"手で押す",
+focus:"身体認識",
+ref:"Justice"
+},
+{
+week:3,
+title:"泡",
+mat:"洗剤・絵の具",
+tools:"ストロー",
+detail:"泡転写",
+focus:"偶然性",
+ref:"NAEYC"
+},
+{
+week:4,
+title:"足形",
+mat:"絵の具",
+tools:"紙",
+detail:"歩いて表現",
+focus:"全身運動",
+ref:"Zero to Three"
+}
+]
+},
+
+{
+theme:"スタンプ",
+why:"因果関係理解",
+basis:"Justice・モンテッソーリ",
+activities:[
+{
+week:1,
+title:"野菜",
+mat:"野菜・絵の具",
+tools:"紙",
+detail:"断面スタンプ",
+focus:"形認識",
+ref:"Justice"
+},
+{
+week:2,
+title:"スポンジ",
+mat:"スポンジ",
+tools:"紙",
+detail:"模様作り",
+focus:"繰り返し",
+ref:"モンテッソーリ"
+},
+{
+week:3,
+title:"指",
+mat:"絵の具",
+tools:"紙",
+detail:"丸→虫",
+focus:"見立て",
+ref:"レッジョ"
+},
+{
+week:4,
+title:"パターン",
+mat:"スタンプ",
+tools:"紙",
+detail:"並べる",
+focus:"規則",
+ref:"モンテッソーリ"
+}
+]
+},
+
+{
+theme:"ちぎる",
+why:"指先発達",
+basis:"モンテッソーリ",
+activities:[
+{week:1,title:"新聞",mat:"新聞",tools:"袋",detail:"ちぎる",focus:"力加減",ref:"モンテッソーリ"},
+{week:2,title:"ちぎり絵",mat:"紙",tools:"のり",detail:"貼る",focus:"配置",ref:"Justice"},
+{week:3,title:"テープ",mat:"テープ",tools:"紙",detail:"貼る剥がす",focus:"操作",ref:"NAEYC"},
+{week:4,title:"コラージュ",mat:"雑誌",tools:"のり",detail:"自由貼り",focus:"選択",ref:"レッジョ"}
+]
+},
+
+{
+theme:"色水",
+why:"変化理解",
+basis:"NAEYC",
+activities:[
+{week:1,title:"混色",mat:"食紅",tools:"水",detail:"混ぜる",focus:"予測",ref:"NAEYC"},
+{week:2,title:"にじみ",mat:"絵の具",tools:"紙",detail:"広がる",focus:"変化",ref:"Zero"},
+{week:3,title:"スポイト",mat:"水",tools:"スポイト",detail:"落とす",focus:"操作",ref:"NAEYC"},
+{week:4,title:"ジュースごっこ",mat:"色水",tools:"カップ",detail:"作る",focus:"意味づけ",ref:"レッジョ"}
+]
+},
+
+{
+theme:"粘土",
+why:"立体認識",
+basis:"モンテッソーリ",
+activities:[
+{week:1,title:"こねる",mat:"粘土",tools:"なし",detail:"変形",focus:"変化",ref:"モンテ"},
+{week:2,title:"食べ物",mat:"粘土",tools:"型",detail:"作る",focus:"見立て",ref:"レッジョ"},
+{week:3,title:"動物",mat:"粘土",tools:"パーツ",detail:"構成",focus:"分解",ref:"Justice"},
+{week:4,title:"型押し",mat:"葉",tools:"粘土",detail:"模様",focus:"自然",ref:"レッジョ"}
+]
+},
+
+{
+theme:"自然",
+why:"素材理解",
+basis:"レッジョ",
+activities:[
+{week:1,title:"拾う",mat:"葉",tools:"袋",detail:"収集",focus:"観察",ref:"レッジョ"},
+{week:2,title:"擦り出し",mat:"葉",tools:"紙",detail:"模様",focus:"発見",ref:"Justice"},
+{week:3,title:"石",mat:"石",tools:"絵の具",detail:"描く",focus:"形",ref:"NAEYC"},
+{week:4,title:"額",mat:"自然物",tools:"段ボール",detail:"配置",focus:"構成",ref:"レッジョ"}
+]
+},
+
+{
+theme:"道具",
+why:"意図的表現",
+basis:"NAEYC",
+activities:[
+{week:1,title:"筆",mat:"筆",tools:"絵の具",detail:"違い",focus:"選択",ref:"Justice"},
+{week:2,title:"ローラー",mat:"ローラー",tools:"紙",detail:"塗る",focus:"広がり",ref:"NAEYC"},
+{week:3,title:"スポンジ",mat:"スポンジ",tools:"紙",detail:"ぼかし",focus:"雰囲気",ref:"レッジョ"},
+{week:4,title:"自作筆",mat:"枝",tools:"紐",detail:"制作",focus:"主体性",ref:"レッジョ"}
+]
+},
+
+{
+theme:"大胆",
+why:"解放",
+basis:"Zero",
+activities:[
+{week:1,title:"ドリップ",mat:"絵の具",tools:"紙",detail:"流す",focus:"偶然",ref:"Zero"},
+{week:2,title:"ビー玉",mat:"ビー玉",tools:"箱",detail:"転がす",focus:"制御",ref:"NAEYC"},
+{week:3,title:"吹き絵",mat:"絵の具",tools:"ストロー",detail:"吹く",focus:"呼吸",ref:"Zero"},
+{week:4,title:"ボディ",mat:"絵の具",tools:"鏡",detail:"描く",focus:"自己",ref:"レッジョ"}
+]
+},
+
+{
+theme:"切る",
+why:"微細運動",
+basis:"モンテ",
+activities:[
+{week:1,title:"一回切り",mat:"紙",tools:"ハサミ",detail:"切る",focus:"安全",ref:"モンテ"},
+{week:2,title:"モンスター",mat:"雑誌",tools:"のり",detail:"貼る",focus:"創造",ref:"レッジョ"},
+{week:3,title:"形",mat:"紙",tools:"ハサミ",detail:"構成",focus:"空間",ref:"Justice"},
+{week:4,title:"図鑑",mat:"雑誌",tools:"ノート",detail:"集める",focus:"自己",ref:"レッジョ"}
+]
+},
+
+{
+theme:"構成",
+why:"空間理解",
+basis:"レッジョ",
+activities:[
+{week:1,title:"箱",mat:"箱",tools:"テープ",detail:"積む",focus:"バランス",ref:"NAEYC"},
+{week:2,title:"芯",mat:"紙芯",tools:"テープ",detail:"連結",focus:"構造",ref:"Justice"},
+{week:3,title:"モビール",mat:"枝",tools:"糸",detail:"吊る",focus:"重さ",ref:"レッジョ"},
+{week:4,title:"街",mat:"箱",tools:"紙",detail:"作る",focus:"社会",ref:"文科省"}
+]
+},
+
+{
+theme:"ストーリー",
+why:"意味づけ",
+basis:"文科省",
+activities:[
+{week:1,title:"日記",mat:"紙",tools:"ペン",detail:"語る",focus:"言語",ref:"文科省"},
+{week:2,title:"絵本",mat:"紙",tools:"綴じる",detail:"構成",focus:"順序",ref:"Justice"},
+{week:3,title:"家族",mat:"紙",tools:"ペン",detail:"描く",focus:"他者",ref:"NAEYC"},
+{week:4,title:"夢",mat:"紙",tools:"色",detail:"想像",focus:"自由",ref:"レッジョ"}
+]
+},
+
+{
+theme:"まとめ",
+why:"統合",
+basis:"レッジョ",
+activities:[
+{week:1,title:"振り返り",mat:"作品",tools:"紙",detail:"選ぶ",focus:"評価",ref:"NAEYC"},
+{week:2,title:"大制作",mat:"自由",tools:"紙",detail:"制作",focus:"統合",ref:"レッジョ"},
+{week:3,title:"カレンダー",mat:"紙",tools:"リング",detail:"まとめ",focus:"構造",ref:"Justice"},
+{week:4,title:"展示",mat:"作品",tools:"壁",detail:"発表",focus:"自己",ref:"文科省"}
+]
+}
+
 ];
 
 let selected=0;
 
 function render(){
-  document.getElementById("tabs").innerHTML=
-  months.map((m,i)=>`<button class="month-btn ${i===selected?'active':''}" onclick="selectM(${i})">${i+1}</button>`).join("");
+document.getElementById("tabs").innerHTML =
+months.map((m,i)=>`<button onclick="selectM(${i})" class="${i===selected?'active':''}">${i+1}</button>`).join("");
 
-  const m=months[selected];
+const m=months[selected];
 
-  document.getElementById("app").innerHTML=
-  `<div class="card">
-  <h3>${m.theme}</h3>
-  <p>${m.sub}</p>
-  <p>${m.why}</p>
-  </div>
-  ${m.activities.map(a=>`<div class="activity">
-  <b>第${a.week}週 ${a.title}</b><br>
-  ${a.mat}<br>${a.detail}
-  </div>`).join("")}`;
+document.getElementById("app").innerHTML =
+`<div class="card">
+<h3>${m.theme}</h3>
+<p>${m.why}</p>
+<p>📚 ${m.basis}</p>
+</div>
+
+${m.activities.map(a=>`
+<div class="block">
+<b>第${a.week}週 ${a.title}</b><br>
+画材：${a.mat}<br>
+用意：${a.tools}<br>
+内容：${a.detail}<br>
+ポイント：${a.focus}<br>
+参考：${a.ref}
+</div>`).join("")}`;
 }
 
 function selectM(i){selected=i;render();}
 render();
+
 </script>
 
 </body>
