@@ -19,223 +19,153 @@
       padding: 18px 16px 12px;
       border-bottom: 1px solid #eee8e0;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      z-index: 10;
     }
     .header small {
-      display: block;
       font-size: 11px;
       color: #a09080;
-      margin-bottom: 4px;
-      letter-spacing: .08em;
-      font-weight: 700;
-    }
-    .header h1 {
-      margin: 0;
-      font-size: 22px;
+      display: block;
     }
     .month-tabs {
       display: flex;
-      gap: 8px;
       overflow-x: auto;
-      padding: 12px 16px;
+      gap: 8px;
+      padding: 12px;
       background: white;
-      border-bottom: 1px solid #eee8e0;
     }
     .month-btn {
-      flex: 0 0 auto;
       border: 2px solid #e8e0d8;
+      padding: 8px 10px;
+      border-radius: 10px;
       background: white;
-      border-radius: 14px;
-      padding: 10px 12px;
       cursor: pointer;
-      font-size: 14px;
-      font-weight: 700;
     }
     .month-btn.active {
       background: #8b5a2b;
       color: white;
-      border-color: #8b5a2b;
     }
     .card {
       margin: 16px;
-      padding: 18px;
-      border-radius: 18px;
+      padding: 16px;
+      border-radius: 12px;
       background: #fff7ef;
-      border: 2px solid #f5e6cc;
-    }
-    .card h2 {
-      margin: 0 0 6px;
-      font-size: 24px;
-      color: #8b5a2b;
-    }
-    .card .sub {
-      margin-bottom: 10px;
-      color: #6a5a50;
-      font-weight: 600;
-    }
-    .card .why {
-      background: rgba(255,255,255,0.75);
-      border-left: 3px solid #8b5a2b;
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 13px;
-      line-height: 1.7;
-    }
-    .section-title {
-      margin: 0 16px 10px;
-      font-size: 11px;
-      color: #a09080;
-      font-weight: 800;
-      letter-spacing: .1em;
     }
     .activity {
-      margin: 0 16px 10px;
-      border: 2px solid #f5e6cc;
-      border-radius: 14px;
-      overflow: hidden;
-      background: white;
-    }
-    .activity summary {
-      list-style: none;
-      cursor: pointer;
-      padding: 14px 16px;
-      font-weight: 700;
-    }
-    .activity summary::-webkit-details-marker {
-      display: none;
-    }
-    .activity .content {
-      padding: 0 16px 16px;
-      font-size: 14px;
-      line-height: 1.8;
-      color: #4a3830;
-    }
-    .tag {
-      display: inline-block;
-      margin: 8px 6px 10px 0;
-      background: #f5e6cc;
-      color: #8b5a2b;
-      border-radius: 999px;
-      padding: 5px 10px;
-      font-size: 12px;
-      font-weight: 700;
+      margin: 10px 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <small>2歳の1年間</small>
-    <h1>おうち美術12ヶ月プラン 🎨</h1>
+
+<div class="header">
+  <small>2歳の1年間</small>
+  <h2>おうち美術プラン</h2>
+</div>
+
+<div id="tabs" class="month-tabs"></div>
+<div id="app"></div>
+
+<script>
+const months = [
+{theme:"色に出会う",sub:"色の認識",why:"色への興味を育てる",activities:[
+{week:1,title:"クレヨン",mat:"クレヨン",detail:"自由に描く"},
+{week:2,title:"色さがし",mat:"家の中",detail:"同じ色を探す"},
+{week:3,title:"シール",mat:"シール",detail:"色選び"},
+{week:4,title:"まとめ",mat:"自由",detail:"好きな色で制作"}
+]},
+{theme:"混ざる",sub:"変化体験",why:"色の変化を知る",activities:[
+{week:1,title:"色水",mat:"水",detail:"混ぜる"},
+{week:2,title:"フィンガー",mat:"絵の具",detail:"手で混ぜる"},
+{week:3,title:"スタンプ",mat:"スポンジ",detail:"重ねる"},
+{week:4,title:"色づくり",mat:"自由",detail:"好きな色"}
+]},
+{theme:"手を使う",sub:"触覚",why:"手の操作",activities:[
+{week:1,title:"粘土",mat:"粘土",detail:"にぎる"},
+{week:2,title:"手形",mat:"絵の具",detail:"押す"},
+{week:3,title:"紙ちぎり",mat:"紙",detail:"ちぎる"},
+{week:4,title:"自由",mat:"自由",detail:"手を使う"}
+]},
+{theme:"かたち",sub:"丸と線",why:"形の理解",activities:[
+{week:1,title:"丸シール",mat:"シール",detail:"丸"},
+{week:2,title:"スタンプ",mat:"スタンプ",detail:"形"},
+{week:3,title:"ぐるぐる",mat:"クレヨン",detail:"円"},
+{week:4,title:"顔",mat:"紙",detail:"見立て"}
+]},
+{theme:"水",sub:"にじみ",why:"広がり体験",activities:[
+{week:1,title:"水描き",mat:"水",detail:"消える"},
+{week:2,title:"にじみ絵",mat:"絵の具",detail:"広がる"},
+{week:3,title:"スポイト",mat:"水",detail:"落とす"},
+{week:4,title:"まとめ",mat:"自由",detail:"水表現"}
+]},
+{theme:"貼る",sub:"構成",why:"配置",activities:[
+{week:1,title:"のり",mat:"紙",detail:"貼る"},
+{week:2,title:"色紙",mat:"紙",detail:"重ねる"},
+{week:3,title:"布",mat:"布",detail:"素材"},
+{week:4,title:"自由",mat:"自由",detail:"構成"}
+]},
+{theme:"見立て",sub:"想像",why:"象徴",activities:[
+{week:1,title:"顔",mat:"シール",detail:"見立て"},
+{week:2,title:"線",mat:"紙",detail:"意味付け"},
+{week:3,title:"スタンプ",mat:"絵の具",detail:"変換"},
+{week:4,title:"自由",mat:"自由",detail:"想像"}
+]},
+{theme:"素材",sub:"感触",why:"違い理解",activities:[
+{week:1,title:"布",mat:"布",detail:"感触"},
+{week:2,title:"アルミ",mat:"アルミ",detail:"光"},
+{week:3,title:"紙",mat:"紙",detail:"違い"},
+{week:4,title:"自由",mat:"自由",detail:"素材"}
+]},
+{theme:"作る",sub:"制作",why:"達成",activities:[
+{week:1,title:"紙皿",mat:"紙",detail:"顔"},
+{week:2,title:"飾り",mat:"紙",detail:"作る"},
+{week:3,title:"コップ",mat:"紙",detail:"立体"},
+{week:4,title:"自由",mat:"自由",detail:"制作"}
+]},
+{theme:"線",sub:"操作",why:"描画",activities:[
+{week:1,title:"ぐるぐる",mat:"クレヨン",detail:"円"},
+{week:2,title:"直線",mat:"紙",detail:"線"},
+{week:3,title:"道",mat:"紙",detail:"遊び"},
+{week:4,title:"自由",mat:"自由",detail:"線"}
+]},
+{theme:"ストーリー",sub:"意味",why:"言語",activities:[
+{week:1,title:"日記",mat:"紙",detail:"語る"},
+{week:2,title:"人",mat:"紙",detail:"描く"},
+{week:3,title:"物語",mat:"紙",detail:"展開"},
+{week:4,title:"絵本",mat:"紙",detail:"構成"}
+]},
+{theme:"まとめ",sub:"統合",why:"振り返り",activities:[
+{week:1,title:"素材選び",mat:"自由",detail:"選択"},
+{week:2,title:"制作",mat:"自由",detail:"表現"},
+{week:3,title:"展示",mat:"作品",detail:"選ぶ"},
+{week:4,title:"発表",mat:"作品",detail:"共有"}
+]}
+];
+
+let selected=0;
+
+function render(){
+  document.getElementById("tabs").innerHTML=
+  months.map((m,i)=>`<button class="month-btn ${i===selected?'active':''}" onclick="selectM(${i})">${i+1}</button>`).join("");
+
+  const m=months[selected];
+
+  document.getElementById("app").innerHTML=
+  `<div class="card">
+  <h3>${m.theme}</h3>
+  <p>${m.sub}</p>
+  <p>${m.why}</p>
   </div>
+  ${m.activities.map(a=>`<div class="activity">
+  <b>第${a.week}週 ${a.title}</b><br>
+  ${a.mat}<br>${a.detail}
+  </div>`).join("")}`;
+}
 
-  <div class="month-tabs" id="monthTabs"></div>
-  <div id="app"></div>
+function selectM(i){selected=i;render();}
+render();
+</script>
 
-  <script>
-    const months = [
-      {
-        emoji: "🎨",
-        theme: "色に出会う",
-        sub: "色を見る・選ぶ月間",
-        why: "好きな色を選ぶ体験が、2歳児の表現の入口になる。",
-        basis: "Zero to Three・Justice et al.",
-        activities: [
-          { week: 1, title: "クレヨン自由描き", mat: "クレヨン・紙", detail: "好きな色で自由に描く。描き方は教えない。" },
-          { week: 2, title: "色さがし", mat: "家の中のもの", detail: "赤・青など同じ色を探す遊び。" },
-          { week: 3, title: "シール貼り", mat: "丸シール", detail: "好きな色を選んで貼る。" },
-          { week: 4, title: "まとめ制作", mat: "クレヨン・シール", detail: "好きな色を集めて1枚に。" }
-        ]
-      },
-      {
-        emoji: "🌈",
-        theme: "混ざる",
-        sub: "色が変わる月間",
-        why: "色の変化が探究心を刺激する。",
-        basis: "NAEYC",
-        activities: [
-          { week: 1, title: "色水混ぜ", mat: "水・食紅", detail: "混ぜて色の変化を見る。" },
-          { week: 2, title: "フィンガーペイント", mat: "絵の具", detail: "手で混ぜて描く。" },
-          { week: 3, title: "スタンプ", mat: "スポンジ", detail: "重ねて色の変化を楽しむ。" },
-          { week: 4, title: "好きな色づくり", mat: "色水", detail: "自分だけの色を作る。" }
-        ]
-      },
-      {
-        emoji: "🖐️",
-        theme: "手を使う",
-        sub: "触る・ちぎる月間",
-        why: "手そのものが最初の道具。",
-        basis: "モンテッソーリ",
-        activities: [
-          { week: 1, title: "粘土", mat: "小麦粘土", detail: "にぎる・のばす。" },
-          { week: 2, title: "手形", mat: "絵の具", detail: "手形を押す。" },
-          { week: 3, title: "紙ちぎり", mat: "新聞紙", detail: "ちぎる感覚を楽しむ。" },
-          { week: 4, title: "自由制作", mat: "粘土・紙", detail: "手を使って自由に。" }
-        ]
-      },
-      {
-        emoji: "⭕",
-        theme: "かたち",
-        sub: "丸と線の月間",
-        why: "形の認識が始まる。",
-        basis: "Justice et al.",
-        activities: [
-          { week: 1, title: "丸シール", mat: "シール", detail: "丸を貼る。" },
-          { week: 2, title: "スタンプ", mat: "スタンプ", detail: "丸を増やす。" },
-          { week: 3, title: "ぐるぐる描き", mat: "クレヨン", detail: "円を描く。" },
-          { week: 4, title: "顔づくり", mat: "シール", detail: "丸から顔に。" }
-        ]
-      }
-    ];
-
-    let selected = 0;
-
-    function renderTabs() {
-      const tabs = document.getElementById("monthTabs");
-      tabs.innerHTML = months.map((m, i) => `
-        <button class="month-btn ${i === selected ? "active" : ""}" onclick="selectMonth(${i})">
-          ${m.emoji} ${i + 1}月
-        </button>
-      `).join("");
-    }
-
-    function renderApp() {
-      const m = months[selected];
-      document.getElementById("app").innerHTML = `
-        <div class="card">
-          <div style="font-size:12px;color:#8b5a2b;font-weight:700;margin-bottom:6px;">
-            ${selected + 1}ヶ月目のテーマ
-          </div>
-          <h2>${m.theme}</h2>
-          <div class="sub">${m.sub}</div>
-          <div class="why">
-            <strong>なぜこのテーマ？</strong><br>
-            ${m.why}<br>
-            <div style="margin-top:6px;font-size:12px;color:#8a7a70;">📚 ${m.basis}</div>
-          </div>
-        </div>
-
-        <div class="section-title">週ごとのアクティビティ</div>
-
-        ${m.activities.map(act => `
-          <details class="activity">
-            <summary>第${act.week}週：${act.title}</summary>
-            <div class="content">
-              <span class="tag">${act.mat}</span>
-              <div>${act.detail}</div>
-            </div>
-          </details>
-        `).join("")}
-      `;
-    }
-
-    function selectMonth(i) {
-      selected = i;
-      renderTabs();
-      renderApp();
-    }
-
-    renderTabs();
-    renderApp();
-  </script>
 </body>
 </html>
