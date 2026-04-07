@@ -1,274 +1,1072 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>おうち美術プラン</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2歳のおうち美術12ヶ月プラン</title>
+  <style>
+    :root {
+      --bg: #faf8f5;
+      --card: #ffffff;
+      --line: #eee8e0;
+      --text: #2d2018;
+      --sub: #6a5a50;
+      --muted: #a09080;
+    }
 
-<style>
-body { margin:0; font-family:sans-serif; background:#faf8f5;}
-.header {padding:16px;background:#fff;border-bottom:1px solid #ddd;}
-.tabs {display:flex;overflow-x:auto;background:#fff;padding:10px;}
-.tabs button {margin-right:6px;padding:8px;border-radius:8px;border:1px solid #ccc;}
-.active {background:#333;color:#fff;}
-.card {margin:16px;padding:16px;background:#fff;border-radius:10px;}
-.block {margin-top:10px;padding:10px;border:1px solid #eee;border-radius:8px;}
-</style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+        "Noto Sans JP", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding-bottom: 72px;
+    }
+
+    .header {
+      background: white;
+      padding: 22px 20px 14px;
+      border-bottom: 2px solid var(--line);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      color: #b0a090;
+      letter-spacing: 0.14em;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .month-tabs {
+      padding: 14px 16px 10px;
+      overflow-x: auto;
+      display: flex;
+      gap: 7px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      background: white;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .month-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .month-btn {
+      flex: 0 0 auto;
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      border: 2px solid #e8e0d8;
+      background: white;
+      color: #8a7a70;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      padding: 0;
+    }
+
+    .month-btn.active {
+      color: white;
+      border-width: 3px;
+    }
+
+    .month-emoji {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .month-num {
+      font-size: 10px;
+      margin-top: 2px;
+      font-weight: 800;
+    }
+
+    .hero {
+      margin: 16px;
+      border-radius: 20px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      border: 2.5px solid;
+    }
+
+    .hero-emoji {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      font-size: 100px;
+      opacity: 0.08;
+      line-height: 1;
+    }
+
+    .hero-small {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+      opacity: 0.8;
+    }
+
+    .hero-title {
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--sub);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .why-box {
+      background: rgba(255,255,255,0.74);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #4a3830;
+      line-height: 1.8;
+      border-left: 3px solid;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      margin: 0 16px 10px;
+      text-transform: uppercase;
+    }
+
+    .activity {
+      background: white;
+      border: 2px solid;
+      border-radius: 16px;
+      margin: 0 16px 10px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .activity-head {
+      width: 100%;
+      padding: 14px 16px;
+      background: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+      transition: background 0.2s;
+    }
+
+    .activity-head.open {
+      color: white;
+    }
+
+    .week-pill {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      flex-shrink: 0;
+      letter-spacing: 0.03em;
+    }
+
+    .activity-title-wrap {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .activity-title {
+      font-weight: 800;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .activity-subline {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+      font-weight: 500;
+    }
+
+    .toggle-mark {
+      font-size: 18px;
+      font-weight: 300;
+      flex-shrink: 0;
+    }
+
+    .activity-body {
+      padding: 0 16px 16px;
+    }
+
+    .meta-block {
+      margin-top: 12px;
+      margin-bottom: 10px;
+    }
+
+    .meta-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .detail-box {
+      font-size: 13px;
+      color: #4a3830;
+      line-height: 1.85;
+      border-radius: 12px;
+      padding: 12px 14px;
+      border: 1px solid;
+      margin-top: 10px;
+    }
+
+    .detail-row + .detail-row {
+      margin-top: 10px;
+    }
+
+    .detail-k {
+      font-weight: 800;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 16px 0;
+      gap: 10px;
+    }
+
+    .nav button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    @media (min-width: 700px) {
+      body { max-width: 720px; margin: 0 auto; }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="header">
+    <div class="eyebrow">2歳の1年間</div>
+    <h1>おうち美術12ヶ月プラン 🎨</h1>
+  </div>
 
-<div class="header">
-<h2>おうち美術12ヶ月プラン</h2>
-</div>
+  <div class="month-tabs" id="monthTabs"></div>
+  <div id="app"></div>
 
-<div id="tabs" class="tabs"></div>
-<div id="app"></div>
+  <script>
+    const months = [
+      {
+        month: 1,
+        theme: "手で描く",
+        sub: "フィンガーペイント月間",
+        emoji: "🖐️",
+        color: "#FFD6D6",
+        accent: "#C0392B",
+        light: "#FFF5F5",
+        why: "2歳は『身体で感じる』ことが表現の入口。道具より先に、手そのものを最初の筆として使うことで、感触・痕跡・因果関係を自然に学べる。",
+        basis: "Zero to Three・Justice et al.",
+        activities: [
+          {
+            week: 1,
+            title: "片栗粉ペイント",
+            mat: "片栗粉・水・食紅",
+            tools: "大きな紙・ビニールシート・おしぼり・汚れてもいい服",
+            detail: "片栗粉と水でやわらかい絵の具を作り、手で広げる・集める・たたく。冷たい、やわらかい、ぬるっとするなどの感覚を楽しみながら、手の動きで痕跡が変わることを経験する。",
+            focus: "完成させることより『触ってどう感じたか』を大事にする。『つめたいね』『のびたね』など感覚を言葉にする。",
+            ref: "Zero to Three『Creativity and the Arts』"
+          },
+          {
+            week: 2,
+            title: "手形ペイント",
+            mat: "安全な絵の具",
+            tools: "画用紙・濡れタオル・乾いたタオル",
+            detail: "手に絵の具をつけて紙に押し、向きや重ね方を変えて遊ぶ。葉っぱ、花びら、どうぶつの耳などに見立ててもよい。",
+            focus: "『ここが指だね』『大きい手だね』など身体意識を育てる。うまく押せたかより、押した跡の違いを楽しむ。",
+            ref: "Justice, Christopher, & Pence (2020)"
+          },
+          {
+            week: 3,
+            title: "泡ペイント",
+            mat: "食器用洗剤・水・絵の具",
+            tools: "紙コップ・ストロー・紙・シート",
+            detail: "色付きの泡を作って紙に写す。泡の広がりや消え方、重なりによる模様の変化を楽しむ。",
+            focus: "偶然できる模様を『失敗』と見ず、『こんなのできたね』と受け止める。吹く動きが難しい場合は大人が補助する。",
+            ref: "NAEYC Developmentally Appropriate Practice (2020)"
+          },
+          {
+            week: 4,
+            title: "足形アート",
+            mat: "安全な絵の具",
+            tools: "模造紙・洗い桶・タオル・シート",
+            detail: "足に絵の具をつけて紙の上を歩き、手形と組み合わせてどうぶつや木などに見立てる。",
+            focus: "全身を使った表現として楽しむ。洗う時間も活動の一部として落ち着いて進める。",
+            ref: "Zero to Three『Creativity and the Arts』"
+          }
+        ]
+      },
+      {
+        month: 2,
+        theme: "スタンプ",
+        sub: "押す・重ねる・並べる月間",
+        emoji: "📮",
+        color: "#FFE8CC",
+        accent: "#D4700A",
+        light: "#FFFAF3",
+        why: "『押すと跡がつく』経験は、因果関係の理解と反復の楽しさにつながる。2歳児の集中の芽を育てやすい活動。",
+        basis: "Justice et al.・モンテッソーリ",
+        activities: [
+          {
+            week: 1,
+            title: "野菜スタンプ",
+            mat: "レンコン・オクラ・じゃがいも・絵の具",
+            tools: "紙皿・画用紙・エプロン",
+            detail: "野菜の断面に絵の具をつけて押し、形の違いを観察する。押した跡を並べたり重ねたりして楽しむ。",
+            focus: "『何の形に見える？』と問いかけながら、観察と見立ての両方を支える。",
+            ref: "Justice, Christopher, & Pence (2020)"
+          },
+          {
+            week: 2,
+            title: "スポンジスタンプ",
+            mat: "丸・四角などのスポンジ・絵の具",
+            tools: "トレー・紙・拭き取り布",
+            detail: "大小さまざまなスポンジを使って模様を作る。同じ形をくり返したり、違う形を組み合わせたりする。",
+            focus: "『同じ』『ちがう』『いっぱい』など分類や反復の言葉を使う。秩序感覚を押しつけず自然に促す。",
+            ref: "モンテッソーリ教育 幼児期の環境と教材"
+          },
+          {
+            week: 3,
+            title: "指スタンプで生きもの",
+            mat: "絵の具",
+            tools: "紙・太めのペン・おしぼり",
+            detail: "指で丸い跡をつけてから、目や足を足して虫や魚に見立てる。",
+            focus: "大人が正解を決めず、子どもの『これさかな』『これむし』という命名を尊重する。",
+            ref: "The Hundred Languages of Children"
+          },
+          {
+            week: 4,
+            title: "スタンプのパターン遊び",
+            mat: "スタンプ・絵の具",
+            tools: "大きな紙・シート",
+            detail: "同じ形を並べる、色を交互にするなど、くり返し模様で遊ぶ。",
+            focus: "規則性を教え込むのではなく、『並んでるね』『つづいてるね』と発見を言語化する。",
+            ref: "モンテッソーリ教育 幼児期の環境と教材"
+          }
+        ]
+      },
+      {
+        month: 3,
+        theme: "ちぎる",
+        sub: "紙の感触を楽しむ月間",
+        emoji: "📄",
+        color: "#E8F5E0",
+        accent: "#3A8A2A",
+        light: "#F5FFF0",
+        why: "紙をやぶる・ちぎる動きは、2歳児の指先の力加減や両手の協応を育てる。音や感触の面白さも大きい。",
+        basis: "モンテッソーリ・Justice et al.",
+        activities: [
+          {
+            week: 1,
+            title: "新聞紙ちぎりあそび",
+            mat: "新聞紙",
+            tools: "大きめの袋・箱・シート",
+            detail: "長くちぎる、小さくちぎる、丸める、降らせるなど、新聞紙の変化を楽しむ。",
+            focus: "『大きくちぎれたね』『びりびり音したね』と、結果より動きや感覚を言葉にする。",
+            ref: "モンテッソーリ教育 幼児期の環境と教材"
+          },
+          {
+            week: 2,
+            title: "ちぎり絵",
+            mat: "色紙・折り紙・のり",
+            tools: "台紙・のり用マット",
+            detail: "青い紙で海、緑で草など、ざっくりしたイメージを持ちながら自由に貼る。",
+            focus: "配置の正解を作らない。『ここに貼るんだね』と選択そのものを認める。",
+            ref: "Justice, Christopher, & Pence (2020)"
+          },
+          {
+            week: 3,
+            title: "マスキングテープちぎり",
+            mat: "マスキングテープ",
+            tools: "画用紙・台紙",
+            detail: "短くちぎって貼る、長く貼る、はがして貼り直すなど、テープならではの操作を楽しむ。",
+            focus: "『手先でつまむ』動きに注目する。やり直せる素材なので、失敗感を持ちにくい環境を作る。",
+            ref: "NAEYC Developmentally Appropriate Practice (2020)"
+          },
+          {
+            week: 4,
+            title: "雑誌コラージュ",
+            mat: "雑誌・チラシ・のり",
+            tools: "台紙・おしぼり",
+            detail: "好きな色や気になる写真をちぎって自由に貼る。完成したら『何が好きだった？』と振り返る。",
+            focus: "選ぶこと自体を表現として扱う。子どもの好みを読み取る活動にする。",
+            ref: "The Hundred Languages of Children"
+          }
+        ]
+      },
+      {
+        month: 4,
+        theme: "色水",
+        sub: "混ぜる・変わる・比べる月間",
+        emoji: "🌈",
+        color: "#D6EAF8",
+        accent: "#1A6FA0",
+        light: "#F0F8FF",
+        why: "色が変わる驚きは、2歳児の『どうして？』を引き出す。アートと科学的な探究が自然につながる。",
+        basis: "NAEYC・Zero to Three",
+        activities: [
+          {
+            week: 1,
+            title: "三原色の混色あそび",
+            mat: "赤・青・黄の食紅や絵の具",
+            tools: "透明カップ・スプーン・水・トレー",
+            detail: "3色だけを使って少しずつ混ぜ、どんな色になるかを楽しむ。",
+            focus: "正しい色名を教えるより、『何色に見える？』と子どもの言葉を拾う。",
+            ref: "NAEYC Developmentally Appropriate Practice (2020)"
+          },
+          {
+            week: 2,
+            title: "にじみ絵",
+            mat: "水彩絵の具",
+            tools: "水で濡らした紙・筆・新聞紙",
+            detail: "濡れた紙に絵の具を落として、広がる様子を観察する。",
+            focus: "『どこまで広がるかな』と変化を見守る。うまく描くより、にじみの面白さを大事にする。",
+            ref: "Zero to Three『Creativity and the Arts』"
+          },
+          {
+            week: 3,
+            title: "スポイトで色落とし",
+            mat: "色水",
+            tools: "スポイト・紙・トレー",
+            detail: "一滴ずつ落として、丸・しみ・重なりの違いを楽しむ。",
+            focus: "指先の細かな操作に注目しつつ、思い通りにならない変化も含めて受け止める。",
+            ref: "NAEYC Developmentally Appropriate Practice (2020)"
+          },
+          {
+            week: 4,
+            title: "色水ジュース屋さん",
+            mat: "色水",
+            tools: "カップ・じょうご・ボトル",
+            detail: "色水を混ぜて『ジュース』を作り、ごっこ遊びに広げる。",
+            focus: "アート活動を生活や物語とつなげる。見立てと対話を楽しむ。",
+            ref: "The Hundred Languages of Children"
+          }
+        ]
+      },
+      {
+        month: 5,
+        theme: "粘土",
+        sub: "こねる・つくる・立体に出会う月間",
+        emoji: "🏺",
+        color: "#F5E6CC",
+        accent: "#8B5A2B",
+        light: "#FFFBF5",
+        why: "平面だけでなく立体に触れることで、手の力加減や空間の感覚が育つ。やり直しやすいのも安心材料。",
+        basis: "モンテッソーリ・レッジョ・エミリア",
+        activities: [
+          {
+            week: 1,
+            title: "粘土をこねる",
+            mat: "小麦粘土またはやわらかい粘土",
+            tools: "粘土板・おしぼり",
+            detail: "ちぎる、丸める、押す、のばすなど基本動作をくり返す。",
+            focus: "形を作らせる前に、変形する面白さそのものを十分味わう。",
+            ref: "モンテッソーリ教育 幼児期の環境と教材"
+          },
+          {
+            week: 2,
+            title: "食べものづくり",
+            mat: "粘土",
+            tools: "小皿・ヘラ・型",
+            detail: "おにぎり、パン、ケーキなどを作って、ごっこ遊びにつなげる。",
+            focus: "『何を作る？』より『何に見える？』でもよい。途中で変わっても止めない。",
+            ref: "The Hundred Languages of Children"
+          },
+          {
+            week: 3,
+            title: "どうぶつ粘土",
+            mat: "粘土",
+            tools: "ヘラ・丸棒・小さい土台",
+            detail: "丸や棒を組み合わせて、どうぶつに見立てる。",
+            focus: "完成度より『頭』『足』など部分の関係に気づくことを大切にする。",
+            ref: "Justice, Christopher, & Pence (2020)"
+          },
+          {
+            week: 4,
+            title: "自然物の型押し",
+            mat: "粘土・葉っぱ・貝殻",
+            tools: "トレー・おしぼり",
+            detail: "自然物を押しつけて模様を写し、違いを比べる。",
+            focus: "アートと自然観察をつなげる。素材の模様を発見する楽しさを共有する。",
+            ref: "The Hundred Languages of Children"
+          }
+        ]
+      },
+      {
+        month: 6,
+        theme: "自然素材",
+        sub: "拾って・見て・並べてつくる月間",
+        emoji: "🍂",
+        color: "#EAE0CC",
+        accent: "#7A5C30",
+        light: "#FAF7F0",
+        why: "自然物に触れることで、素材そのものへの興味や観察力が育つ。散歩の経験を表現につなげやすい。",
+        basis: "レッジョ・エミリア・文部科学省",
+        activities: [
+          {
+            week: 1,
+            title: "自然物あつめ",
+            mat: "葉・石・木の実・枝",
+            tools: "小袋・かご",
+            detail: "散歩で気になったものを拾い、並べたり分類したりする。",
+            focus: "『これ気になったんだね』と選ぶ行為を受け止める。集めるだけでも十分な活動。",
+            ref: "The Hundred Languages of Children"
+          },
+          {
+            week: 2,
+            title: "葉っぱのこすり出し",
+            mat: "葉っぱ・クレヨン",
+            tools: "薄い紙・下敷き",
+            detail: "葉の上に紙を置き、クレヨンでこすって模様を写し取る。",
+            focus: "『見えなかった模様が出てきた』という発見を楽しむ。",
+            ref: "Justice, Christopher, & Pence (2020)"
+          },
+          {
+            week: 3,
+            title: "石ころペイント",
+            mat: "石・絵の具",
+            tools: "筆・トレー・タオル",
+            detail: "石の形を見ながら、顔や模様を描く。",
+            focus: "石の形そのものを生かす。『何に見える？』を対話の中心にする。",
+            ref: "NAEYC Developmentally Appropriate Practice (2020)"
+          },
+          {
+            week: 4,
+            title: "自然物コラージュ",
+            mat: "葉・枝・小石",
+            tools: "段ボール台紙・ボンド・大人用補助",
+            detail: "拾った自然物を台紙に配置して、季節の一枚を作る。",
+            focus: "貼る順番や置き場所を子どもが決められるようにする。",
+            ref: "The Hundred Languages of Children"
+          }
+        ]
+      },
+      {
+        month: 7,
+        theme: "道具に出会う",
+        sub: "筆・ローラー・スポンジ月間",
+        emoji: "🖌️",
+        color: "#E8D8F5",
+        accent: "#7A3AAA",
+        light: "#F8F0FF",
+        why: "2歳後半は、手そのものだけでなく道具を選んで使う経験が表現の幅を広げる。",
+        basis: "Justice et al.・NAEYC",
+        activities: [
+          {
+            week: 1,
+            title: "太筆と細筆",
+            mat: "絵の具・太筆・細筆",
+            tools: "大きな紙・水入れ・雑巾",
+            detail: "同じ色で太い線と細い線を描き比べる。",
+            focus: "『どっちが好き？』と聞き、道具の違いを感覚的に味わう。",
+            ref: "Justice, Christopher, & Pence (2020)"
+          },
+          {
+            week: 2,
+            title: "ローラーペイント",
+            mat: "ローラー・絵の具",
+            tools: "模造紙・トレー・シート",
+            detail: "広い面をころころ転がして塗る。縦横の動きの違いも楽しむ。",
+            focus: "豪快さを歓迎する。はみ出さないことより、塗り広げる気持ちよさを優先する。",
+            ref: "NAEYC Developmentally Appropriate Practice (2020)"
+          },
+          {
+            week: 3,
+            title: "スポンジで風景",
+            mat: "青・白・水色の絵の具・スポンジ",
+            tools: "画用紙・トレー",
+            detail: "スポンジをぽんぽんして、空や海のような雰囲気を作る。",
+            focus: "正確な絵を求めず、『ふわふわ』『もこもこ』など雰囲気の言葉を使う。",
+            ref: "The Hundred Languages of Children"
+          },
+          {
+            week: 4,
+            title: "自分の道具をつくる",
+            mat: "葉・ひも・スポンジ・割り箸",
+            tools: "輪ゴム・テープ",
+            detail: "簡単な自作ブラシをつくり、描いてみる。",
+            focus: "『自分で作った道具』を使う体験を通して主体性を高める。",
+            ref: "The Hundred Languages of Children"
+          }
+        ]
+      },
+      {
+        month: 8,
+        theme: "大胆に描く",
+        sub: "流す・吹く・転がす月間",
+        emoji: "🎭",
+        color: "#FFE0E8",
+        accent: "#B02060",
+        light: "#FFF5F8",
+        why: "大胆な動きと偶然の変化を楽しむことで、結果を気にせず表現する開放感を持ちやすい。",
+        basis: "NAEYC・Zero to Three",
+        activities: [
+          {
+            week: 1,
+            title: "ドリッピング",
+            mat: "薄めた絵の具",
+            tools: "スポイト・大きな紙・シート",
+            detail: "絵の具を垂らし、流れやにじみの動きを観察する。",
+            focus: "『こっちに流れたね』と変化を一緒に追いかける。",
+            ref: "Zero to Three『Creativity and the Arts』"
+          },
+          {
+            week: 2,
+            title: "ビー玉アート",
+            mat: "絵の具・ビー玉",
+            tools: "浅い箱・紙",
+            detail: "箱を傾けてビー玉を転がし、線の軌跡を作る。",
+            focus: "操作できる部分と偶然になる部分、両方を面白がる。",
+            ref: "NAEYC Developmentally Appropriate Practice (2020)"
+          },
+          {
+            week: 3,
+            title: "吹き絵",
+            mat: "薄めた絵の具",
+            tools: "ストロー・紙・おしぼり",
+            detail: "絵の具を置いてストローで吹き、枝や珊瑚のような形を作る。",
+            focus: "できた形をあとから見立てる。先に正解を決めない。",
+            ref: "Zero to Three『Creativity and the Arts』"
+          },
+          {
+            week: 4,
+            title: "腕や手のボディペイント",
+            mat: "安全なフェイス・ボディ用絵の具",
+            tools: "鏡・スポンジ・タオル",
+            detail: "腕や手に模様を描いて、身体をキャンバスとして楽しむ。",
+            focus: "自分の身体への関心や自己表現を肯定的に支える。",
+            ref: "The Hundred Languages of Children"
+          }
+        ]
+      },
+      {
+        month: 9,
+        theme: "切る・貼る",
+        sub: "はさみとコラージュ月間",
+        emoji: "✂️",
+        color: "#DCEEFF",
+        accent: "#2255AA",
+        light: "#F0F5FF",
+        why: "2歳後半〜3歳に向けて、切る動きの導入が微細運動と構成力の発達につながる。",
+        basis: "モンテッソーリ・Justice et al.",
+        activities: [
+          {
+            week: 1,
+            title: "一回切りに挑戦",
+            mat: "細い紙テープ",
+            tools: "子ども用はさみ・トレー",
+            detail: "一回だけチョキンと切る動作をくり返して楽しむ。",
+            focus: "持ち方を厳しく直しすぎず、安全に一回切れた経験を積む。",
+            ref: "モンテッソーリ教育 幼児期の環境と教材"
+          },
+          {
+            week: 2,
+            title: "モンスターコラージュ",
+            mat: "雑誌の写真・色紙・のり",
+            tools: "子ども用はさみ・台紙",
+            detail: "目や口になりそうな写真を切って、自由な顔を作る。",
+            focus: "変な顔や不思議な組み合わせを面白がる。正しさを求めない。",
+            ref: "The Hundred Languages of Children"
+          },
+          {
+            week: 3,
+            title: "形でつくる家や車",
+            mat: "折り紙・のり",
+            tools: "子ども用はさみ・台紙",
+            detail: "切った紙を並べて、家・車・ロケットなどに見立てる。",
+            focus: "『何になるかな』と考えながら配置する体験を大切にする。",
+            ref: "Justice, Christopher, & Pence (2020)"
+          },
+          {
+            week: 4,
+            title: "好きなものノート",
+            mat: "雑誌の写真・のり",
+            tools: "小さいノート・子ども用はさみ",
+            detail: "好きなものを切って貼り、自分だけのノートを作る。",
+            focus: "好みや興味を表現する活動として扱う。選んだ理由を聞いてもよい。",
+            ref: "The Hundred Languages of Children"
+          }
+        ]
+      },
+      {
+        month: 10,
+        theme: "立体構成",
+        sub: "積む・つなぐ・並べる月間",
+        emoji: "🏗️",
+        color: "#E0F5E0",
+        accent: "#2A8A3A",
+        light: "#F3FFF3",
+        why: "平面から立体へ広げることで、空間の中で考える力や構造への興味が育つ。",
+        basis: "レッジョ・エミリア・NAEYC",
+        activities: [
+          {
+            week: 1,
+            title: "空き箱タワー",
+            mat: "空き箱",
+            tools: "テープ・紙・シート",
+            detail: "大きさの違う箱を積み上げてタワーを作る。",
+            focus: "高くすることだけでなく、『どうしたら倒れにくいかな』と考えるきっかけを作る。",
+            ref: "NAEYC Developmentally Appropriate Practice (2020)"
+          },
+          {
+            week: 2,
+            title: "紙芯でロボットや乗り物",
+            mat: "トイレットペーパー芯・キッチンペーパー芯",
+            tools: "テープ・シール・絵の具",
+            detail: "芯をつなげてロボットや乗り物に見立てる。",
+            focus: "部分を組み合わせて全体にする感覚を育てる。",
+            ref: "Justice, Christopher, & Pence (2020)"
+          },
+          {
+            week: 3,
+            title: "自然物モビール",
+            mat: "枝・葉・木の実",
+            tools: "糸・大人の補助",
+            detail: "枝に自然物を吊るしてモビールを作る。",
+            focus: "揺れやバランスに注目する。完成形より配置を考える時間を大切にする。",
+            ref: "The Hundred Languages of Children"
+          },
+          {
+            week: 4,
+            title: "まちをつくる",
+            mat: "空き箱・折り紙",
+            tools: "のり・テープ・ペン",
+            detail: "家、お店、公園などを作って小さな街にする。",
+            focus: "社会や生活のイメージと表現をつなげる。",
+            ref: "文部科学省『幼児期の終わりまでに育ってほしい姿』"
+          }
+        ]
+      },
+      {
+        month: 11,
+        theme: "ストーリーを描く",
+        sub: "描いて話す月間",
+        emoji: "📖",
+        color: "#FFF0D0",
+        accent: "#C07800",
+        light: "#FFFDF5",
+        why: "2歳後半からは、描いたものに意味や物語をのせ始める。『描いた後に話す』ことも表現の一部。",
+        basis: "文部科学省・Justice et al.・レッジョ・エミリア",
+        activities: [
+          {
+            week: 1,
+            title: "きょうのえにっき",
+            mat: "クレヨン・紙",
+            tools: "大人が言葉を書けるペン",
+            detail: "今日楽しかったことを描いて、子どもの言葉を大人が書き留める。",
+            focus: "絵の上手さより、語ったことを大切に扱う。",
+            ref: "文部科学省『幼児期の終わりまでに育ってほしい姿』"
+          },
+          {
+            week: 2,
+            title: "お話絵本づくり",
+            mat: "紙・クレヨン",
+            tools: "ホッチキスまたはクリップ",
+            detail: "数枚の紙をまとめて、簡単な絵本にする。",
+            focus: "『はじまり』『つづき』の感覚をゆるく楽しむ。順番通りでなくてもよい。",
+            ref: "Justice, Christopher, & Pence (2020)"
+          },
+          {
+            week: 3,
+            title: "家族の絵",
+            mat: "クレヨン・大きめの紙",
+            tools: "マーカー",
+            detail: "家族や身近な人を思い浮かべて描く。",
+            focus: "似ているかどうかではなく、『誰を思って描いたか』を大切にする。",
+            ref: "NAEYC Developmentally Appropriate Practice (2020)"
+          },
+          {
+            week: 4,
+            title: "夢や想像の絵",
+            mat: "白や黒の画用紙・クレヨン",
+            tools: "ペン・シール",
+            detail: "空を飛ぶ、動物になるなど、想像の場面を描く。",
+            focus: "現実らしさより、イメージを自由に語ることを支える。",
+            ref: "The Hundred Languages of Children"
+          }
+        ]
+      },
+      {
+        month: 12,
+        theme: "まとめ",
+        sub: "1年をまとめて表現する月間",
+        emoji: "🎉",
+        color: "#F0E0FF",
+        accent: "#8030C0",
+        light: "#FAF5FF",
+        why: "1年間の素材や技法を振り返り、『好きだったものを選ぶ』こと自体を表現として扱う。",
+        basis: "レッジョ・エミリア・NAEYC・文部科学省",
+        activities: [
+          {
+            week: 1,
+            title: "好きな画材えらび",
+            mat: "今年使った画材いろいろ",
+            tools: "作品・トレー・紙",
+            detail: "クレヨン、粘土、スタンプなどから好きなものを選んで試す。",
+            focus: "『何が好き？』と振り返る時間をつくる。選ぶこと自体を大事にする。",
+            ref: "NAEYC Developmentally Appropriate Practice (2020)"
+          },
+          {
+            week: 2,
+            title: "大きな自由制作",
+            mat: "好きな画材",
+            tools: "大きな紙・シート",
+            detail: "1年で使った材料の中から好きなものを組み合わせて大きく表現する。",
+            focus: "テーマを決めすぎず、『好きなもの全部』でもよい。",
+            ref: "The Hundred Languages of Children"
+          },
+          {
+            week: 3,
+            title: "作品を選んで飾る",
+            mat: "これまでの作品",
+            tools: "テープ・壁面・名前カード",
+            detail: "今年作った中から気に入った作品を選んで飾る。",
+            focus: "大人が選ばず、子どもの『これ好き』を尊重する。",
+            ref: "Justice, Christopher, & Pence (2020)"
+          },
+          {
+            week: 4,
+            title: "おうちギャラリー",
+            mat: "作品たち",
+            tools: "展示スペース・ラベル",
+            detail: "家族に見せながら『これつくった』を共有する。",
+            focus: "発表の場を評価の場にせず、『話してうれしい』経験にする。",
+            ref: "文部科学省『幼児期の終わりまでに育ってほしい姿』"
+          }
+        ]
+      }
+    ];
 
-<script>
+    let selectedMonth = 0;
+    let expandedWeek = null;
 
-const months = [
+    function render() {
+      renderTabs();
+      renderMonth();
+    }
 
-{
-theme:"手で描く",
-why:"身体感覚から表現を始める",
-basis:"Zero to Three・Justice et al.",
-activities:[
-{
-week:1,
-title:"片栗粉ペイント",
-mat:"片栗粉・水・食紅",
-tools:"大きな紙・シート",
-detail:"手で伸ばして感触を楽しむ",
-focus:"触感を言葉にする",
-ref:"Zero to Three"
-},
-{
-week:2,
-title:"手形",
-mat:"絵の具",
-tools:"紙・タオル",
-detail:"手で押す",
-focus:"身体認識",
-ref:"Justice"
-},
-{
-week:3,
-title:"泡",
-mat:"洗剤・絵の具",
-tools:"ストロー",
-detail:"泡転写",
-focus:"偶然性",
-ref:"NAEYC"
-},
-{
-week:4,
-title:"足形",
-mat:"絵の具",
-tools:"紙",
-detail:"歩いて表現",
-focus:"全身運動",
-ref:"Zero to Three"
-}
-]
-},
+    function renderTabs() {
+      const wrap = document.getElementById("monthTabs");
+      wrap.innerHTML = months.map((m, i) => {
+        const active = i === selectedMonth;
+        return `
+          <button
+            class="month-btn ${active ? 'active' : ''}"
+            style="
+              background:${active ? m.accent : 'white'};
+              border-color:${active ? m.accent : '#E8E0D8'};
+              color:${active ? 'white' : '#8A7A70'};
+            "
+            onclick="selectMonth(${i})"
+          >
+            <span class="month-emoji">${m.emoji}</span>
+            <span class="month-num">${i + 1}月</span>
+          </button>
+        `;
+      }).join("");
+    }
 
-{
-theme:"スタンプ",
-why:"因果関係理解",
-basis:"Justice・モンテッソーリ",
-activities:[
-{
-week:1,
-title:"野菜",
-mat:"野菜・絵の具",
-tools:"紙",
-detail:"断面スタンプ",
-focus:"形認識",
-ref:"Justice"
-},
-{
-week:2,
-title:"スポンジ",
-mat:"スポンジ",
-tools:"紙",
-detail:"模様作り",
-focus:"繰り返し",
-ref:"モンテッソーリ"
-},
-{
-week:3,
-title:"指",
-mat:"絵の具",
-tools:"紙",
-detail:"丸→虫",
-focus:"見立て",
-ref:"レッジョ"
-},
-{
-week:4,
-title:"パターン",
-mat:"スタンプ",
-tools:"紙",
-detail:"並べる",
-focus:"規則",
-ref:"モンテッソーリ"
-}
-]
-},
+    function renderMonth() {
+      const m = months[selectedMonth];
+      const app = document.getElementById("app");
 
-{
-theme:"ちぎる",
-why:"指先発達",
-basis:"モンテッソーリ",
-activities:[
-{week:1,title:"新聞",mat:"新聞",tools:"袋",detail:"ちぎる",focus:"力加減",ref:"モンテッソーリ"},
-{week:2,title:"ちぎり絵",mat:"紙",tools:"のり",detail:"貼る",focus:"配置",ref:"Justice"},
-{week:3,title:"テープ",mat:"テープ",tools:"紙",detail:"貼る剥がす",focus:"操作",ref:"NAEYC"},
-{week:4,title:"コラージュ",mat:"雑誌",tools:"のり",detail:"自由貼り",focus:"選択",ref:"レッジョ"}
-]
-},
+      app.innerHTML = `
+        <div
+          class="hero"
+          style="background:${m.light}; border-color:${m.color};"
+        >
+          <div class="hero-emoji">${m.emoji}</div>
+          <div class="hero-small" style="color:${m.accent};">${selectedMonth + 1}ヶ月目のテーマ</div>
+          <div class="hero-title" style="color:${m.accent};">${m.theme}</div>
+          <div class="hero-sub">${m.sub}</div>
+          <div class="why-box" style="border-left-color:${m.accent};">
+            <strong>ねらい・背景</strong><br>
+            ${m.why}
+            <div style="margin-top:6px;font-size:11px;color:#8A7A70;">📚 ${m.basis}</div>
+          </div>
+        </div>
 
-{
-theme:"色水",
-why:"変化理解",
-basis:"NAEYC",
-activities:[
-{week:1,title:"混色",mat:"食紅",tools:"水",detail:"混ぜる",focus:"予測",ref:"NAEYC"},
-{week:2,title:"にじみ",mat:"絵の具",tools:"紙",detail:"広がる",focus:"変化",ref:"Zero"},
-{week:3,title:"スポイト",mat:"水",tools:"スポイト",detail:"落とす",focus:"操作",ref:"NAEYC"},
-{week:4,title:"ジュースごっこ",mat:"色水",tools:"カップ",detail:"作る",focus:"意味づけ",ref:"レッジョ"}
-]
-},
+        <div class="section-label">週ごとのプラン</div>
 
-{
-theme:"粘土",
-why:"立体認識",
-basis:"モンテッソーリ",
-activities:[
-{week:1,title:"こねる",mat:"粘土",tools:"なし",detail:"変形",focus:"変化",ref:"モンテ"},
-{week:2,title:"食べ物",mat:"粘土",tools:"型",detail:"作る",focus:"見立て",ref:"レッジョ"},
-{week:3,title:"動物",mat:"粘土",tools:"パーツ",detail:"構成",focus:"分解",ref:"Justice"},
-{week:4,title:"型押し",mat:"葉",tools:"粘土",detail:"模様",focus:"自然",ref:"レッジョ"}
-]
-},
+        ${m.activities.map((act, i) => {
+          const isOpen = expandedWeek === i;
+          return `
+            <div class="activity" style="border-color:${isOpen ? m.accent : m.color};">
+              <button
+                class="activity-head ${isOpen ? 'open' : ''}"
+                onclick="toggleWeek(${i})"
+                style="background:${isOpen ? m.accent : 'white'};"
+              >
+                <div
+                  class="week-pill"
+                  style="
+                    background:${isOpen ? 'rgba(255,255,255,0.25)' : m.color};
+                    color:${isOpen ? 'white' : m.accent};
+                  "
+                >
+                  第${act.week}週
+                </div>
 
-{
-theme:"自然",
-why:"素材理解",
-basis:"レッジョ",
-activities:[
-{week:1,title:"拾う",mat:"葉",tools:"袋",detail:"収集",focus:"観察",ref:"レッジョ"},
-{week:2,title:"擦り出し",mat:"葉",tools:"紙",detail:"模様",focus:"発見",ref:"Justice"},
-{week:3,title:"石",mat:"石",tools:"絵の具",detail:"描く",focus:"形",ref:"NAEYC"},
-{week:4,title:"額",mat:"自然物",tools:"段ボール",detail:"配置",focus:"構成",ref:"レッジョ"}
-]
-},
+                <div class="activity-title-wrap">
+                  <div class="activity-title" style="color:${isOpen ? 'white' : '#2D2018'};">
+                    ${act.title}
+                  </div>
+                  ${!isOpen ? `<div class="activity-subline">画材：${act.mat}</div>` : ``}
+                </div>
 
-{
-theme:"道具",
-why:"意図的表現",
-basis:"NAEYC",
-activities:[
-{week:1,title:"筆",mat:"筆",tools:"絵の具",detail:"違い",focus:"選択",ref:"Justice"},
-{week:2,title:"ローラー",mat:"ローラー",tools:"紙",detail:"塗る",focus:"広がり",ref:"NAEYC"},
-{week:3,title:"スポンジ",mat:"スポンジ",tools:"紙",detail:"ぼかし",focus:"雰囲気",ref:"レッジョ"},
-{week:4,title:"自作筆",mat:"枝",tools:"紐",detail:"制作",focus:"主体性",ref:"レッジョ"}
-]
-},
+                <div class="toggle-mark" style="color:${isOpen ? 'white' : m.accent};">
+                  ${isOpen ? '−' : '+'}
+                </div>
+              </button>
 
-{
-theme:"大胆",
-why:"解放",
-basis:"Zero",
-activities:[
-{week:1,title:"ドリップ",mat:"絵の具",tools:"紙",detail:"流す",focus:"偶然",ref:"Zero"},
-{week:2,title:"ビー玉",mat:"ビー玉",tools:"箱",detail:"転がす",focus:"制御",ref:"NAEYC"},
-{week:3,title:"吹き絵",mat:"絵の具",tools:"ストロー",detail:"吹く",focus:"呼吸",ref:"Zero"},
-{week:4,title:"ボディ",mat:"絵の具",tools:"鏡",detail:"描く",focus:"自己",ref:"レッジョ"}
-]
-},
+              ${isOpen ? `
+                <div class="activity-body">
+                  <div class="meta-block">
+                    <div class="meta-label">画材</div>
+                    <div class="chips">
+                      ${act.mat.split("・").map(item => `
+                        <span class="chip" style="background:${m.color}; color:${m.accent};">${item}</span>
+                      `).join("")}
+                    </div>
+                  </div>
 
-{
-theme:"切る",
-why:"微細運動",
-basis:"モンテ",
-activities:[
-{week:1,title:"一回切り",mat:"紙",tools:"ハサミ",detail:"切る",focus:"安全",ref:"モンテ"},
-{week:2,title:"モンスター",mat:"雑誌",tools:"のり",detail:"貼る",focus:"創造",ref:"レッジョ"},
-{week:3,title:"形",mat:"紙",tools:"ハサミ",detail:"構成",focus:"空間",ref:"Justice"},
-{week:4,title:"図鑑",mat:"雑誌",tools:"ノート",detail:"集める",focus:"自己",ref:"レッジョ"}
-]
-},
+                  <div class="meta-block">
+                    <div class="meta-label">他に用意するもの</div>
+                    <div class="detail-box" style="background:${m.light}; border-color:${m.color};">
+                      ${act.tools}
+                    </div>
+                  </div>
 
-{
-theme:"構成",
-why:"空間理解",
-basis:"レッジョ",
-activities:[
-{week:1,title:"箱",mat:"箱",tools:"テープ",detail:"積む",focus:"バランス",ref:"NAEYC"},
-{week:2,title:"芯",mat:"紙芯",tools:"テープ",detail:"連結",focus:"構造",ref:"Justice"},
-{week:3,title:"モビール",mat:"枝",tools:"糸",detail:"吊る",focus:"重さ",ref:"レッジョ"},
-{week:4,title:"街",mat:"箱",tools:"紙",detail:"作る",focus:"社会",ref:"文科省"}
-]
-},
+                  <div class="detail-box" style="background:${m.light}; border-color:${m.color};">
+                    <div class="detail-row">
+                      <span class="detail-k">活動内容</span>
+                      ${act.detail}
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-k">意識したい点</span>
+                      ${act.focus}
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-k">参考文献・根拠</span>
+                      ${act.ref}
+                    </div>
+                  </div>
+                </div>
+              ` : ``}
+            </div>
+          `;
+        }).join("")}
 
-{
-theme:"ストーリー",
-why:"意味づけ",
-basis:"文科省",
-activities:[
-{week:1,title:"日記",mat:"紙",tools:"ペン",detail:"語る",focus:"言語",ref:"文科省"},
-{week:2,title:"絵本",mat:"紙",tools:"綴じる",detail:"構成",focus:"順序",ref:"Justice"},
-{week:3,title:"家族",mat:"紙",tools:"ペン",detail:"描く",focus:"他者",ref:"NAEYC"},
-{week:4,title:"夢",mat:"紙",tools:"色",detail:"想像",focus:"自由",ref:"レッジョ"}
-]
-},
+        <div class="nav">
+          <button
+            onclick="moveMonth(-1)"
+            ${selectedMonth === 0 ? "disabled" : ""}
+            style="
+              border:2px solid #E0D8D0;
+              background:${selectedMonth === 0 ? '#F5F0EC' : 'white'};
+              color:${selectedMonth === 0 ? '#C0B8B0' : '#4A3830'};
+              cursor:${selectedMonth === 0 ? 'default' : 'pointer'};
+            "
+          >
+            ← ${selectedMonth > 0 ? `${selectedMonth}ヶ月目` : ""}
+          </button>
 
-{
-theme:"まとめ",
-why:"統合",
-basis:"レッジョ",
-activities:[
-{week:1,title:"振り返り",mat:"作品",tools:"紙",detail:"選ぶ",focus:"評価",ref:"NAEYC"},
-{week:2,title:"大制作",mat:"自由",tools:"紙",detail:"制作",focus:"統合",ref:"レッジョ"},
-{week:3,title:"カレンダー",mat:"紙",tools:"リング",detail:"まとめ",focus:"構造",ref:"Justice"},
-{week:4,title:"展示",mat:"作品",tools:"壁",detail:"発表",focus:"自己",ref:"文科省"}
-]
-}
+          <button
+            onclick="moveMonth(1)"
+            ${selectedMonth === 11 ? "disabled" : ""}
+            style="
+              border:2px solid ${selectedMonth < 11 ? months[selectedMonth + 1].accent : '#E0D8D0'};
+              background:${selectedMonth === 11 ? '#F5F0EC' : months[selectedMonth + 1].light};
+              color:${selectedMonth === 11 ? '#C0B8B0' : months[selectedMonth + 1].accent};
+              cursor:${selectedMonth === 11 ? 'default' : 'pointer'};
+            "
+          >
+            ${selectedMonth < 11 ? `${selectedMonth + 2}ヶ月目 →` : ""}
+          </button>
+        </div>
+      `;
+    }
 
-];
+    function selectMonth(i) {
+      selectedMonth = i;
+      expandedWeek = null;
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
-let selected=0;
+    function toggleWeek(i) {
+      expandedWeek = expandedWeek === i ? null : i;
+      renderMonth();
+    }
 
-function render(){
-document.getElementById("tabs").innerHTML =
-months.map((m,i)=>`<button onclick="selectM(${i})" class="${i===selected?'active':''}">${i+1}</button>`).join("");
+    function moveMonth(delta) {
+      const next = selectedMonth + delta;
+      if (next < 0 || next > 11) return;
+      selectedMonth = next;
+      expandedWeek = null;
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
-const m=months[selected];
-
-document.getElementById("app").innerHTML =
-`<div class="card">
-<h3>${m.theme}</h3>
-<p>${m.why}</p>
-<p>📚 ${m.basis}</p>
-</div>
-
-${m.activities.map(a=>`
-<div class="block">
-<b>第${a.week}週 ${a.title}</b><br>
-画材：${a.mat}<br>
-用意：${a.tools}<br>
-内容：${a.detail}<br>
-ポイント：${a.focus}<br>
-参考：${a.ref}
-</div>`).join("")}`;
-}
-
-function selectM(i){selected=i;render();}
-render();
-
-</script>
-
+    render();
+  </script>
 </body>
 </html>
