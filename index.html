@@ -897,6 +897,11 @@
 
     let selectedMonth = 0;
     let expandedWeek = null;
+    const startMonth = 4;
+
+    function getDisplayMonth(index) {
+      return ((index + startMonth - 1) % 12) + 1;
+    }
 
     function render() {
       renderTabs();
@@ -918,7 +923,7 @@
             onclick="selectMonth(${i})"
           >
             <span class="month-emoji">${m.emoji}</span>
-            <span class="month-num">${i + 1}月</span>
+            <span class="month-num">${getDisplayMonth(i)}月</span>
           </button>
         `;
       }).join("");
@@ -934,7 +939,7 @@
           style="background:${m.light}; border-color:${m.color};"
         >
           <div class="hero-emoji">${m.emoji}</div>
-          <div class="hero-small" style="color:${m.accent};">${selectedMonth + 1}ヶ月目のテーマ</div>
+          <div class="hero-small" style="color:${m.accent};">${getDisplayMonth(selectedMonth)}月のテーマ</div>
           <div class="hero-title" style="color:${m.accent};">${m.theme}</div>
           <div class="hero-sub">${m.sub}</div>
           <div class="why-box" style="border-left-color:${m.accent};">
@@ -1026,7 +1031,7 @@
               cursor:${selectedMonth === 0 ? 'default' : 'pointer'};
             "
           >
-            ← ${selectedMonth > 0 ? `${selectedMonth}ヶ月目` : ""}
+            ← ${selectedMonth > 0 ? `${getDisplayMonth(selectedMonth - 1)}月` : ""}
           </button>
 
           <button
@@ -1039,7 +1044,7 @@
               cursor:${selectedMonth === 11 ? 'default' : 'pointer'};
             "
           >
-            ${selectedMonth < 11 ? `${selectedMonth + 2}ヶ月目 →` : ""}
+            ${selectedMonth < 11 ? `${getDisplayMonth(selectedMonth + 1)}月 →` : ""}
           </button>
         </div>
       `;
